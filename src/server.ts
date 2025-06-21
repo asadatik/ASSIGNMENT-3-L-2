@@ -18,4 +18,4 @@ async function main() {
     }
 }
 
-main()9
+main()
