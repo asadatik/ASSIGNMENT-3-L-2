@@ -1,37 +1,77 @@
-import { model, Schema } from "mongoose";
-const bookSchema = new Schema(
+import mongoose from "mongoose";
+
+const genres = [
+  "FICTION",
+  "NON_FICTION",
+  "SCIENCE",
+  "HISTORY",
+  "BIOGRAPHY",
+  "FANTASY",
+];
+
+interface IBook extends mongoose.Document {
+  title: string;
+  author: string;
+  genre: string;
+  isbn: string;
+  description?: string;
+  copies: number;
+  available: boolean;
+  isAvailable(): boolean;
+}
+
+const bookSchema = new mongoose.Schema<IBook>(
   {
-    title: { type: String, required: [true, "title field is required"] },
-    author: { type: String, required: [true, "author field is required"] },
+    title: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
     genre: {
       type: String,
-      required: [true, "genre field is required"],
-      enum: [
-        "FICTION",
-        "NON_FICTION",
-        "SCIENCE",
-        "HISTORY",
-        "BIOGRAPHY",
-        "FANTASY",
-      ],
+      required: true,
+      enum: genres,
     },
     isbn: {
       type: String,
-      required: [true, "isbn field is required"],
-      unique: [true, "This isbn is already exist"],
+      required: true,
+      unique: true,
     },
-    description: { type: String },
+    description: {
+      type: String,
+    },
     copies: {
       type: Number,
-      required: [true, "copies field is required"],
-      min: [0, "Negative value not allow"],
+      required: true,
+      min: [0, "Copies must be grater than 0"],
     },
-    available: { type: Boolean, default: true },
+    available: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
-    versionKey: false,
     timestamps: true,
+    versionKey: false,
   }
 );
 
-export const Book = model("Book", bookSchema);
+bookSchema.methods.isAvailable = function () {
+  return this.copies > 0;
+};
+
+bookSchema.statics.getAvailableBooks = function () {
+  return this.find({ available: true });
+};
+
+bookSchema.pre("save", function (next) {
+  this.available = this.copies > 0;
+  next();
+});
+
+const Book = mongoose.model<IBook>("Book", bookSchema);
+
+export default Book;
