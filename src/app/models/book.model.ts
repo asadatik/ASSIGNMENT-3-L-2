@@ -9,7 +9,7 @@ const genres = [
   "FANTASY",
 ];
 
-interface IBook extends mongoose.Document {
+export interface IBook extends mongoose.Document {
   title: string;
   author: string;
   genre: string;
@@ -22,37 +22,13 @@ interface IBook extends mongoose.Document {
 
 const bookSchema = new mongoose.Schema<IBook>(
   {
-    title: {
-      type: String,
-      required: true,
-    },
-    author: {
-      type: String,
-      required: true,
-    },
-    genre: {
-      type: String,
-      required: true,
-      enum: genres,
-    },
-    isbn: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    description: {
-      type: String,
-    },
-    copies: {
-      type: Number,
-      required: true,
-      min: [0, "Copies must be grater than 0"],
-    },
-    available: {
-      type: Boolean,
-      default: true,
-    },
-  },
+    title: {  type: String,  required: true },
+    author: { type: String, required: true },
+    genre: {type: String, required: true, enum: genres},
+    isbn: { type: String, required: true, unique: true},
+    description: { type: String, },
+    copies: { type: Number, required: true, min: [0, "Copies must be grater than 0"] },
+  available: { type: Boolean, default: true  }, },
   {
     timestamps: true,
     versionKey: false,
@@ -73,5 +49,7 @@ bookSchema.pre("save", function (next) {
 });
 
 const Book = mongoose.model<IBook>("Book", bookSchema);
+
+
 
 export default Book;

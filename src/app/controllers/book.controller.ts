@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
 
-import Book from "../models/book.models";
+import Book from "../models/book.model";
 
 import { ObjectId } from "mongodb";
 
 export const bookRoutes = express.Router();
 
-// book database add oparation
+// books post
 bookRoutes.post("/books", async (req: Request, res: Response) => {
   try {
     const body = req.body;
@@ -30,7 +30,7 @@ bookRoutes.post("/books", async (req: Request, res: Response) => {
     });
   }
 });
-// all book method operation
+// al
 bookRoutes.get("/books", async (req: Request, res: Response) => {
   try {
     const filterBook = req.query?.filter as string;
