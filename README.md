@@ -5,7 +5,8 @@ A RESTful API for managing a library system, built using **Express.js**, **TypeS
 It allows managing books, borrowing records, and availability status using proper schema validation, static methods, and aggregation.
 
 ---
-
+##  Live link(https://mongose.vercel.app)
+---
 ## 🚀 Tech Stack
 
 - **Backend**: Express.js
@@ -22,7 +23,7 @@ It allows managing books, borrowing records, and availability status using prope
 
 ```bash
 git clone https://github.com/asadatik/ASSIGNMENT-3-L-2.git
-cd library-management-api
+cd ASSIGNMENT-3-L-2
 ```
 
 ### 🔹 Install dependencies
