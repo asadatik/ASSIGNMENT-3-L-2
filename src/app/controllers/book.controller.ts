@@ -93,11 +93,15 @@ bookRoutes.get("/books/:bookId", async (req: Request, res: Response) => {
     });
   }
 });
-// single book copies update success
+// single book c update success
+
+
 bookRoutes.put("/books/:bookId", async (req: Request, res: Response) => {
   try {
     const id = req.params.bookId;
     const body = req.body;
+
+
     // console.log(body);
     const result = await Book.findByIdAndUpdate(
       id,
