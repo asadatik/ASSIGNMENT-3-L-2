@@ -36,8 +36,8 @@ bookRoutes.get("/books", async (req: Request, res: Response) => {
     const filterBook = req.query?.filter as string;
     const sortBy = (req.query?.sortBy as string) || "createdAt";
     const sort = req.query?.sort === "desc" ? -1 : 1;
-    const limit = req.query?.limit as string;
-    const numberLimit = parseInt(limit) || 100;
+    
+   
 
     const query: Record<string, unknown> = {};
     if (filterBook) {
@@ -48,7 +48,7 @@ bookRoutes.get("/books", async (req: Request, res: Response) => {
       [sortBy]: sort,
     } as Record<string, 1 | -1>;
 
-    const result = await Book.find(query).sort(sortFilter).limit(numberLimit);
+    const result = await Book.find(query).sort(sortFilter);
 
     res.status(200).send({
       success: true,
@@ -101,7 +101,7 @@ bookRoutes.put("/books/:bookId", async (req: Request, res: Response) => {
     // console.log(body);
     const result = await Book.findByIdAndUpdate(
       id,
-      { $set: { copies: body.copies } },
+      { $set: body },
       { new: true }
     );
     res.status(200).send({
